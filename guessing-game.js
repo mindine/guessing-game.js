@@ -1,4 +1,13 @@
+
+//readln module import to be used in this project
+
 const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
 
 
 //Guessing game project
@@ -10,12 +19,13 @@ let secretNumber = 55; //initializing a variable in the global scope
 
 let checkGuess = (number) => {
 
-  if (number > secretNumber) { //output if guess is higher than secretNumber
+  let num = Number(number);
+  if (num > secretNumber) { //output if guess is higher than secretNumber
     console.log(`Too High.`);
     return false;
   }
 
-  else if (number < secretNumber) { //output if guess is lower than secretNumber
+  else if (num < secretNumber) { //output if guess is lower than secretNumber
     console.log(`Too Low.`);
     return false;
   }
@@ -29,6 +39,20 @@ let checkGuess = (number) => {
 
 //askGuess
 
+let askGuess = () => {
+  rl.question('Enter a guess: ', (answer) => {
+    // TODO: Log the answer in a database
+    let check = checkGuess(answer);
 
+    if (check) {
+      console.log(`You win!`);
+      rl.close();
+    } else {
+      return askGuess();
+    }
+  });
+}
+
+askGuess();
 
 
