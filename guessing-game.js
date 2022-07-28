@@ -14,6 +14,7 @@ const rl = readline.createInterface({
 //phase one tooHigh? tooLow? whoKnows
 
 let secretNumber = randomInRange(0, 100); //initializing a variable in the global scope 
+let numAttempts = 2;                       //initializing a variable number of guessing attempts in the global scope
 
 //checkGuess function
 
@@ -40,6 +41,15 @@ function checkGuess(number) {
 //askGuess function
 
 function askGuess() {
+  if (numAttempts === 0) {    //when number of attempts gets to 0 print out game over message and exit game
+
+    rl.question(`Enter your name: `, (answer0) => {
+      console.log(`----${answer0.toUpperCase()} YOU LOSE!!---- <<===>> ----GAME OVER!!!----`);
+      rl.close();
+    })
+
+  }
+
   rl.question('Enter a guess: ', (answer) => {
     // TODO: Log the answer in a database
     let check = checkGuess(answer);
@@ -48,12 +58,13 @@ function askGuess() {
       console.log(`You win!`);
       rl.close();
     } else {
+      numAttempts--;
       return askGuess();
     }
   });
 }
 
-// askGuess(); //calling function in global space
+
 
 //randomInRange function
 
@@ -84,4 +95,14 @@ function askRange(min, max) {
 
 }
 
-askRange();
+//askLimit function 
+
+function askLimit(num) {
+  rl.question(`Enter number of Attempts: `, (answer3) => {
+    numAttempts = Number(answer3);             //reassign number of attempts to the value determined by user
+    askRange();                                //run the askRange function to execute the rest of the game
+  })
+
+}
+
+askLimit();    //run asklimit function to start the game
